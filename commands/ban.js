@@ -5,31 +5,31 @@ const {
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('ban')
-    .setDescription('Ban une personne.')
+    .setDescription('הרחקה.')
     .addUserOption(option =>
       option.setName('target')
-      .setDescription('Membre à ban')
+      .setDescription('הבן אדם להרחיק')
       .setRequired(true))
     .addStringOption(option =>
       option.setName('raison')
-      .setDescription('Raison du ban')
+      .setDescription('סיבה')
       .setRequired(false)),
   async execute(interaction, client) {
     const user = client.guilds.cache.get(interaction.guildId).members.cache.get(interaction.options.getUser('target').id);
     const executer = client.guilds.cache.get(interaction.guildId).members.cache.get(interaction.user.id);
 
     if (!executer.permissions.has(client.discord.Permissions.FLAGS.BAN_MEMBERS)) return interaction.reply({
-      content: 'Vous n\'avez pas la permission requise pour éxecuter cette commande ! (`BAN_MEMBERS`)',
+      content: 'אין לך גישה ! (`BAN_MEMBERS`)',
       ephemeral: true
     });
 
     if (user.roles.highest.rawPosition > executer.roles.highest.rawPosition) return interaction.reply({
-      content: 'La personne que vous souhaitez ban est au dessus de vous !',
+      content: 'הבן אדם שאתה רוצה להעיף מעלייך !',
       ephemeral: true
     });
 
     if (!user.bannable) return interaction.reply({
-      content: 'La personne que vous souhaitez ban est au dessus de moi ! Je ne peut donc pas le ban.',
+      content: 'הבן אדם שאתה רוצה להרחיק הוא מעליי! לא יכול להעיף אותו.',
       ephemeral: true
     });
 
@@ -39,14 +39,14 @@ module.exports = {
         days: 1
       });
       interaction.reply({
-        content: `**${user.user.tag}** A été banni avec succès !`
+        content: `**${user.user.tag}** הורחק בהצלחה !`
       });
     } else {
       user.ban({
         days: 1
       });
       interaction.reply({
-        content: `**${user.user.tag}** A été banni avec succès !`
+        content: `**${user.user.tag}** הורחק בהצלחה !`
       });
     };
   },

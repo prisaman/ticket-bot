@@ -7,7 +7,7 @@ module.exports = {
     if (interaction.customId == "open-ticket") {
       if (client.guilds.cache.get(interaction.guildId).channels.cache.find(c => c.topic == interaction.user.id)) {
         return interaction.reply({
-          content: 'Vous avez déjà créé un ticket !',
+          content: 'כבר פתחת טיקט!',
           ephemeral: true
         });
       };
@@ -31,35 +31,35 @@ module.exports = {
         type: 'text',
       }).then(async c => {
         interaction.reply({
-          content: `Ticket créé! <#${c.id}>`,
+          content: `הטיקט נפתח! <#${c.id}>`,
           ephemeral: true
         });
 
         const embed = new client.discord.MessageEmbed()
           .setColor('6d6ee8')
           .setAuthor('Ticket', 'https://i.imgur.com/oO5ZSRK.png')
-          .setDescription('Séléctionnez la catégorie de votre ticket')
-          .setFooter('ExoHost.fr', 'https://i.imgur.com/oO5ZSRK.png')
+          .setDescription('תבחר את הקטגוריה של הטיקט שלך!')
+          .setFooter('prisaman.xyz', 'https://i.imgur.com/oO5ZSRK.png')
           .setTimestamp();
 
         const row = new client.discord.MessageActionRow()
           .addComponents(
             new client.discord.MessageSelectMenu()
             .setCustomId('category')
-            .setPlaceholder('Séléctionnez la catégorie du ticket')
+            .setPlaceholder('תבחר את הקטגוריה של הטיקט!')
             .addOptions([{
-                label: 'Transaction',
-                value: 'transaction',
-                emoji: '🪙',
+                label: 'עזרה מהצוות',
+                value: 'עזרה', //transaction
+                emoji: '👐',
               },
               {
-                label: 'Jeux',
-                value: 'jeux',
-                emoji: '🎮',
+                label: 'לדווח על צוות/ממבר',
+                value: 'דיווח', //jeux
+                emoji: '📝',
               },
               {
-                label: 'Autres',
-                value: 'autre',
+                label: 'אחר',
+                value: 'אחר', //autre
                 emoji: '📔',
               },
             ]),
@@ -83,18 +83,18 @@ module.exports = {
                 const embed = new client.discord.MessageEmbed()
                   .setColor('6d6ee8')
                   .setAuthor('Ticket', 'https://i.imgur.com/oO5ZSRK.png')
-                  .setDescription(`<@!${interaction.user.id}> A créé un ticket ${i.values[0]}`)
-                  .setFooter('ExoHost.fr', 'https://i.imgur.com/oO5ZSRK.png')
+                  .setDescription(`<@!${interaction.user.id}> פתח טיקט ${i.values[0]}`)
+                  .setFooter('prisaman.xyz', 'https://i.imgur.com/oO5ZSRK.png')
                   .setTimestamp();
 
                 const row = new client.discord.MessageActionRow()
                   .addComponents(
                     new client.discord.MessageButton()
                     .setCustomId('close-ticket')
-                    .setLabel('Fermer le ticket')
+                    .setLabel('לסגור את הטיקט')
                     .setEmoji('899745362137477181')
                     .setStyle('DANGER'),
-                  );
+                  ); 
 
                 const opened = await c.send({
                   content: `<@&${client.config.roleSupport}>`,
@@ -107,27 +107,27 @@ module.exports = {
                 });
               });
             };
-            if (i.values[0] == 'transaction') {
+            if (i.values[0] == 'עזרה') {
               c.edit({
                 parent: client.config.parentTransactions
               });
             };
-            if (i.values[0] == 'jeux') {
+            if (i.values[0] == 'דיווח') {
               c.edit({
                 parent: client.config.parentJeux
               });
             };
-            if (i.values[0] == 'autre') {
+            if (i.values[0] == 'אחר') {
               c.edit({
                 parent: client.config.parentAutres
               });
             };
           };
-        });
+        }); 
 
         collector.on('end', collected => {
           if (collected.size < 1) {
-            c.send(`Aucune catégorie séléctionnée. Fermeture du ticket...`).then(() => {
+            c.send(`לא נבחרה קטגוריה, הטיקט נסגר!`).then(() => {
               setTimeout(() => {
                 if (c.deletable) {
                   c.delete();
@@ -147,16 +147,16 @@ module.exports = {
         .addComponents(
           new client.discord.MessageButton()
           .setCustomId('confirm-close')
-          .setLabel('Fermer le ticket')
+          .setLabel('אשר סגירה')
           .setStyle('DANGER'),
           new client.discord.MessageButton()
           .setCustomId('no')
-          .setLabel('Annuler la fermeture')
+          .setLabel('לבטל סגירה')
           .setStyle('SECONDARY'),
         );
 
       const verif = await interaction.reply({
-        content: 'Êtes vous sûr de vouloir fermer le ticket ?',
+        content: 'אתה בטוח שאתה רוצה לסגור את הטיקט?',
         components: [row]
       });
 
@@ -168,7 +168,7 @@ module.exports = {
       collector.on('collect', i => {
         if (i.customId == 'confirm-close') {
           interaction.editReply({
-            content: `Ticket fermé par <@!${interaction.user.id}>`,
+            content: `הטיקט נסגר על ידי: <@!${interaction.user.id}>`,
             components: []
           });
 
@@ -193,15 +193,15 @@ module.exports = {
               const embed = new client.discord.MessageEmbed()
                 .setColor('6d6ee8')
                 .setAuthor('Ticket', 'https://i.imgur.com/oO5ZSRK.png')
-                .setDescription('```Contrôle des tickets```')
-                .setFooter('ExoHost.fr', 'https://i.imgur.com/oO5ZSRK.png')
+                .setDescription('```טיקט קונטרול```')
+                .setFooter('prisaman.xyz', 'https://i.imgur.com/oO5ZSRK.png')
                 .setTimestamp();
 
               const row = new client.discord.MessageActionRow()
                 .addComponents(
                   new client.discord.MessageButton()
                   .setCustomId('delete-ticket')
-                  .setLabel('Supprimer le ticket')
+                  .setLabel('לסגור את הטיקט')
                   .setEmoji('🗑️')
                   .setStyle('DANGER'),
                 );
@@ -216,7 +216,7 @@ module.exports = {
         };
         if (i.customId == 'no') {
           interaction.editReply({
-            content: 'Fermeture du ticket annulé !',
+            content: 'סוגר את הטיקט !',
             components: []
           });
           collector.stop();
@@ -226,7 +226,7 @@ module.exports = {
       collector.on('end', (i) => {
         if (i.size < 1) {
           interaction.editReply({
-            content: 'Fermeture du ticket annulé !',
+            content: 'סוגר את הטיקט !',
             components: []
           });
         };
@@ -238,7 +238,7 @@ module.exports = {
       const chan = guild.channels.cache.get(interaction.channelId);
 
       interaction.reply({
-        content: 'Sauvegarde des messages...'
+        content: 'שומר את ההודעות...'
       });
 
       chan.messages.fetch().then(async (messages) => {
@@ -253,13 +253,13 @@ module.exports = {
           .then(function (urlToPaste) {
             const embed = new client.discord.MessageEmbed()
               .setAuthor('Logs Ticket', 'https://i.imgur.com/oO5ZSRK.png')
-              .setDescription(`📰 Logs du ticket \`${chan.id}\` créé par <@!${chan.topic}> et supprimé par <@!${interaction.user.id}>\n\nLogs: [**Cliquez ici pour voir les logs**](${urlToPaste})`)
+              .setDescription(`📰 לוג של הטיקט \`${chan.id}\`נפתח על ידי <@!${chan.topic}> ונמחק על ידי <@!${interaction.user.id}>\n\nLogs: [**תלחץ פה כדי לראות את הטיקט**](${urlToPaste})`)
               .setColor('2f3136')
               .setTimestamp();
 
             const embed2 = new client.discord.MessageEmbed()
               .setAuthor('Logs Ticket', 'https://i.imgur.com/oO5ZSRK.png')
-              .setDescription(`📰 Logs de votre ticket \`${chan.id}\`: [**Cliquez ici pour voir les logs**](${urlToPaste})`)
+              .setDescription(`📰 הלוג של הטיקט \`${chan.id}\`: [**תלחץ פה כדי לראות את הטיקט**](${urlToPaste})`)
               .setColor('2f3136')
               .setTimestamp();
 
@@ -268,8 +268,8 @@ module.exports = {
             });
             client.users.cache.get(chan.topic).send({
               embeds: [embed2]
-            }).catch(() => {console.log('I can\'t dm him :(')});
-            chan.send('Suppression du channel...');
+            }).catch(() => {console.log('לא יכול לשלוח לו הודעה:(')});
+            chan.send('מוחק את החדר...');
 
             setTimeout(() => {
               chan.delete();

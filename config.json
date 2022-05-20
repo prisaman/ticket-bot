@@ -1,18 +1,18 @@
 {
-  "clientId": "",
+  "clientId": "975725654672805928",
 
 
-  "parentOpened": "",
-  "parentTransactions": "",
-  "parentJeux": "",
-  "parentAutres": "",
+  "parentOpened": "976930662617600030",
+  "parentTransactions": "976930662617600030",
+  "parentJeux": "976938402559717407",
+  "parentAutres": "976930662617600030",
 
 
-  "roleSupport": "",
+  "roleSupport": "976848657800388608",
 
   
-  "logsTicket": "",
-  "ticketChannel": "",
+  "logsTicket": "976931169104961536",
+  "ticketChannel": "976930881409273928",
 
-  "footerText": "ExoHost.fr"
+  "footerText": "prisaman.xyz"
 }
